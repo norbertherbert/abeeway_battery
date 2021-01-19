@@ -165,9 +165,11 @@
 
         let i_custom_lora    = calculate_lora_current(input.sf, input.tx_power, input.custom.payl_len, input.custom.nof_msg_per_day);
         let i_heartbeat_lora = calculate_lora_current(input.sf, input.tx_power, HEARTBEAT_PAYL_LEN, input.heartbeat.nof_msg_per_day);
+
+        let i_tdoa_lora      = calculate_lora_current(input.sf, input.tx_power, TDOA_PAYL_LEN, input.tdoa.nof_msg_per_day) * input.tdoa.nof_msg_repetition;
         // TODO: TO HAVE IT VERIFIED BY STEPHANE B, (N times repeated packets open 2*N RX receive windows...)
         // It was not like that in the original excel table!!!
-        let i_tdoa_lora      = calculate_lora_current(input.sf, input.tx_power, TDOA_PAYL_LEN, input.tdoa.nof_msg_per_day) * input.tdoa.nof_msg_repetition;
+
         let i_gps_lora       = calculate_lora_current(input.sf, input.tx_power, GPS_PAYL_LEN, input.gps.nof_msg_per_day);
         let i_agps_lora      = calculate_lora_current(input.sf, input.tx_power, AGPS_PAYL_LEN, input.agps.nof_msg_per_day);
         let i_wifi_lora      = calculate_lora_current(input.sf, input.tx_power, WIFI_PAYL_LEN, input.wifi.nof_msg_per_day);

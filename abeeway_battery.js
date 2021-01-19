@@ -25,32 +25,32 @@
             descr: 'Industrial Tracker',
             battery: {
                 capacity: 19000,                                                    // [mAh]
-                practical_capacity: BATTERY_TYPES.primary.practical_capacity,       // [*100%]
-                leakage_per_month: BATTERY_TYPES.primary.leakage_per_month,         // [*100%]
+                practical_capacity: BATTERY_TYPES.primary.practical_capacity,       // ratio
+                leakage_per_month: BATTERY_TYPES.primary.leakage_per_month,         // ratio
             }
         }, 
         compact: {
             descr: 'Compact Tracker',
             battery: {
                 capacity: 8000,                                                     // [mAh]
-                practical_capacity: BATTERY_TYPES.primary.practical_capacity,       // [*100%]
-                leakage_per_month: BATTERY_TYPES.primary.leakage_per_month,         // [*100%]
+                practical_capacity: BATTERY_TYPES.primary.practical_capacity,       // ratio
+                leakage_per_month: BATTERY_TYPES.primary.leakage_per_month,         // ratio
             }
         },
         micro: {
             descr: 'Microtracker',
             battery: {
                 capacity: 450,                                                      // [mAh]
-                practical_capacity: BATTERY_TYPES.rechargeable.practical_capacity,  // [*100%]
-                leakage_per_month: BATTERY_TYPES.rechargeable.leakage_per_month,    // [*100%]
+                practical_capacity: BATTERY_TYPES.rechargeable.practical_capacity,  // ratio
+                leakage_per_month: BATTERY_TYPES.rechargeable.leakage_per_month,    // ratio
             }
         },
         smart_badge: {
             descr: 'Smart Badge',
             battery: {
                 capacity: 1300,                                                     // [mAh]
-                practical_capacity: BATTERY_TYPES.rechargeable.practical_capacity,  // [*100%]
-                leakage_per_month: BATTERY_TYPES.rechargeable.leakage_per_month,    // [*100%]
+                practical_capacity: BATTERY_TYPES.rechargeable.practical_capacity,  // ratio
+                leakage_per_month: BATTERY_TYPES.rechargeable.leakage_per_month,    // ratio
             }
         },
     }
@@ -191,8 +191,8 @@
         ) / 1000      // [mA]
 
         const battery_capacity = PRODUCTS[input.product].battery.capacity;                             // [mAh]
-        const practical_capacity = PRODUCTS[input.product].battery.practical_capacity;                 // [100%]
-        const battery_leakage_per_month = PRODUCTS[input.product].battery.leakage_per_month;           // [100%]
+        const practical_capacity = PRODUCTS[input.product].battery.practical_capacity;                 // ratio
+        const battery_leakage_per_month = PRODUCTS[input.product].battery.leakage_per_month;           // ratio
 
         let average_battery_leakage = (battery_capacity / 2) * ( battery_leakage_per_month /(30*24) )  // [mA]
 

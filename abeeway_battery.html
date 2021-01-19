@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abeeway Battery Life Time Calculator</title>
+    <style>
+        html {
+            margin: 10px;
+        }
+        .flexcontainer {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+            align-items: stretch;
+            align-content: flex-start
+        }
+        .config_set { 
+            width: 200px;
+            flex-flow: 1 1 1;
+        }
+        input[type="text"], select, button {
+            width: 190px;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 190px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Abeeway Battery Life Time Calculator</h1>
+
+    <div class="flexcontainer">
+    <fieldset class='config_set'>
+        <legend>General config params:</legend>
+
+        <label for="product">Product:</label><br />
+        <select id="product" name="product">
+            <option value="industrial">Industrial Tracker</option>
+            <option value="compact">Compact Tracker</option>
+            <option value="micro">Microtracker</option>
+            <option value="smart_badge" selected>Smart Badge</option>
+        </select>
+        <br />
+
+        <label for="tx_power">Tx power:</label><br />
+        <select id="tx_power" name="tx_power">
+            <option value="_14dBm_">14dBm</option>
+            <option value="_17dBm_">17dBm</option>
+            <option value="_19dBm_">19dBm</option>
+        </select>
+        <br />
+
+        <label for="sf">Spreading Factor:</label><br />
+        <select id="sf" name="sf">
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10" selected>10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <br />
+
+        <label for="accelerometer_on">Accelerometer On:</label>
+        <input type="checkbox" id="accelerometer_on" name="accelerometer_on" checked>
+        <br />
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>Custom LoRaWAN messages:</legend>
+
+        <label for="custom_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="custom_nof_msg_per_day" name="custom_nof_msg_per_day" value="0"><br />
+
+        <label for="custom_payl_len">Payload length [byte]:</label><br />
+        <input type="text" id="custom_payl_len" name="custom_payl_len" value="17">
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>Heartbeat messages:</legend>
+
+        <label for="heartbeat_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="heartbeat_nof_msg_per_day" name="heartbeat_nof_msg_per_day" value="0"><br />
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>TDOA location updates:</legend>
+
+        <label for="tdoa_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="tdoa_nof_msg_per_day" name="tdoa_nof_msg_per_day" value="0"><br />
+
+        <label for="tdoa_nof_msg_repetition">Num. of msg repetition:</label><br />
+        <select id="tdoa_nof_msg_repetition" name="tdoa_nof_msg_repetition">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4 selected>4</option>
+        </select>
+        <!-- <input type="text" id="tdoa_nof_msg_repetition" name="tdoa_nof_msg_repetition" value="4"><br /> -->
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>GPS location updates:</legend>
+
+        <label for="gps_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="gps_nof_msg_per_day" name="gps_nof_msg_per_day" value="0"><br />
+
+        <label for="gps_ttff">Time to first fix [s]:</label><br />
+        <input type="text" id="gps_ttff" name="gps_ttff" value="49"><br />
+
+        <label for="gps_conv_time">GPS convergence time [s]:</label><br />
+        <input type="text" id="gps_conv_time" name="gps_conv_time" value="90"><br />
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>AGPS location updates:</legend>
+
+        <label for="agps_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="agps_nof_msg_per_day" name="agps_nof_msg_per_day" value="0"><br />
+
+        <label for="agps_on_time">AGPS on time [s]:</label><br />
+        <input type="text" id="agps_on_time" name="agps_on_time" value="8"><br />
+
+        <label for="agps_nof_satellites">Num. of satellites:</label><br />
+        <input type="text" id="agps_nof_satellites" name="agps_nof_satellites" value="5"><br />
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>WiFi location updates:</legend>
+
+        <label for="wifi_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="wifi_nof_msg_per_day" name="wifi_nof_msg_per_day" value="0"><br />
+
+        <label for="wifi_nof_bssid">Num. of BSSID/msg:</label><br />
+        <select id="wifi_nof_bssid" name="wifi_nof_bssid">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4 selected>4</option>
+        </select>
+        <!-- <input type="text" id="wifi_nof_bssid" name="wifi_nof_bssid" value="4"><br /> -->
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>BLE location updates:</legend>
+
+        <label for="ble_nof_msg_per_day">Num. of msg/day:</label><br />
+        <input type="text" id="ble_nof_msg_per_day" name="ble_nof_msg_per_day" value="0"><br />
+
+        <label for="ble_nof_bssid">Num. of BSSID/msg:</label><br />
+        <select id="ble_nof_bssid" name="ble_nof_bssid">
+            <option value=1>1</option>
+            <option value=2>2</option>
+            <option value=3>3</option>
+            <option value=4 selected>4</option>
+        </select>
+        <label for="ble_operation">BLE operation:</label><br />
+        <select id="ble_operation" name="ble_operation">
+            <option value="fast_scan">Fast BLE scan (8sec)</option>
+            <option value="slow_scan">Slow BLE scan (30sec)</option>
+        </select>
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+        <legend>Advanced BLE usage:</legend>
+
+        <label for="advanced_ble_usage_time_per_day">Usage per day [hour]:</label><br />
+        <input type="text" id="advanced_ble_usage_time_per_day" name="advanced_ble_usage_time_per_day" value="0"><br />
+        <label for="advanced_ble_operation">BLE operation:</label><br />
+        <select id="advanced_ble_operation" name="advanced_ble_operation">
+            <option value="fast_adv">Fast advertisement (2s)</option>
+            <option value="slow_adv">Slow advertisement (10s)</option>
+            <option value="connected">Connected (2s)</option>
+            <option value="slow_scan">Slow BLE scan (30sec)</option>
+            <option value="fast_scan">Fast BLE scan (8sec)</option>
+        </select>
+
+    </fieldset>
+
+    <fieldset class='config_set'>
+
+        <legend>Calculation:</legend>
+
+        <button onClick = "calculate()">Calculate</button><br />
+
+        <label for="result">Battery life time:</label><br />
+        <textarea id="result"></textarea>
+
+    </fieldset>
+
+    </div>
+
+</body>
+
+<script>
+
+    /*********************************************************************/
+    /***** GUI SCRIPTS                                               *****/
+    /*********************************************************************/
+
+    function calculate() {
+
+        let input = {
+
+            product:                document.getElementById('product').value,                       // industrial|compact|micro|smart_badge
+            tx_power:               document.getElementById('tx_power').value,                      // _14dBm_|_17dBm_|_19dBm
+            sf:                     document.getElementById('sf').value,                            // 7|8|9|10|11|12
+            accelerometer_on:       document.getElementById('accelerometer_on').checked,
+            // TODO: transmission strategy and packet repetition NOT IMPLEMENTED!!!
+
+            custom: {
+                nof_msg_per_day:    document.getElementById('custom_nof_msg_per_day').value,
+                payl_len:           document.getElementById('custom_payl_len').value,               // [bytes]
+            },
+            heartbeat: {
+                nof_msg_per_day:    document.getElementById('heartbeat_nof_msg_per_day').value,
+            },
+            tdoa: {
+                nof_msg_per_day:    document.getElementById('tdoa_nof_msg_per_day').value,
+                nof_msg_repetition: document.getElementById('tdoa_nof_msg_repetition').value,
+            },
+            gps: {
+                nof_msg_per_day:    document.getElementById('gps_nof_msg_per_day').value,
+                ttff:               document.getElementById('gps_ttff').value,                      // [s]
+                conv_time:          document.getElementById('gps_conv_time').value,                 // [s]
+            },
+            agps: {
+                nof_msg_per_day:    document.getElementById('agps_nof_msg_per_day').value,
+                on_time:            document.getElementById('agps_on_time').value,                  // [s]
+                nof_satellites:     document.getElementById('agps_nof_satellites').value,
+                // TODO: nof_satellites NOT IMPLEMENTED!!! How?
+            },
+            wifi: {
+                nof_msg_per_day:    document.getElementById('wifi_nof_msg_per_day').value,
+                nof_bssid:          document.getElementById('wifi_nof_bssid').value,                
+                // TODO: nof_bssid NOT IMPLEMENTED!!!
+            },
+            ble: {
+                nof_msg_per_day:    document.getElementById('ble_nof_msg_per_day').value,
+                nof_bssid:          document.getElementById('ble_nof_bssid').value,                 
+                // TODO: nof_bssid NOT IMPLEMENTED!!!
+                operation:          document.getElementById('ble_operation').value,                 // fast_scan|slow_scan 
+            },
+            advanced_ble: {
+                usage_time_per_day: document.getElementById('advanced_ble_usage_time_per_day').value, // fast_adv|slow_adv|connected|fast_scan|slow_scan
+                operation:          document.getElementById('advanced_ble_operation').value,
+
+                // fast_scan_usage_time_per_day: 0,
+                // slow_scan_usage_time_per_day: 0,     
+                // fast_adv_usage_time_per_day:  0,
+                // slow_adv_usage_time_per_day:  0,
+                // connected_usage_time_per_day: 0,
+
+            }
+
+        };
+
+        let result = calculate_battery_life_time(input).toFixed(1) + " days";
+        document.getElementById('result').value = result;
+
+    }
+
+</script>
+
+<script src="abeeway_battery.js"></script>
+
+</html>

@@ -5,19 +5,16 @@ let input = {
     product: 'micro',                       // industrial|compact|micro|smart_badge
     tx_power: '_14dBm_',                    // _14dBm_|_17dBm_|_19dBm
     sf: 10,                                 // 7|8|9|10|11|12
+    nof_msg_repetition: 2,
     accelerometer_on: true,
     // TODO: transmission strategy and packet repetition NOT IMPLEMENTED!!!
 
-    custom: {
+    custom_msg: {
         nof_msg_per_day: 0,
         payl_len: 17,                       // [bytes]
     },
     heartbeat: {
         nof_msg_per_day: 24,
-    },
-    tdoa: {
-        nof_msg_per_day: 24,
-        nof_msg_repetition: 4,
     },
     gps: {
         nof_msg_per_day: 24,
@@ -28,20 +25,18 @@ let input = {
         nof_msg_per_day: 24,
         on_time: 8,                         // [s]
         nof_satellites: 5, 
-        // TODO: nof_satellites NOT IMPLEMENTED!!!
+        // TODO: nof_satellites NOT IMPLEMENTED!!! (lack of documentation)
     },
     wifi: {
         nof_msg_per_day: 24,
         nof_bssid: 4, 
-        // TODO: nof_bssid NOT IMPLEMENTED!!!
     },
     ble: {
         nof_msg_per_day: 24,
         nof_bssid: 4, 
-        // TODO: nof_bssid NOT IMPLEMENTED!!!
         operation: 'fast_scan',             // fast_scan|slow_scan 
     },
-    advanced_ble: {
+    custom_ble: {
         usage_time_per_day: 0,
         operation: 'fast_adv',              // fast_adv|slow_adv|connected|fast_scan|slow_scan
 

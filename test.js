@@ -7,7 +7,6 @@ let input = {
     sf: 10,                                 // 7|8|9|10|11|12
     nof_msg_repetition: 2,
     accelerometer_on: true,
-    // TODO: transmission strategy and packet repetition NOT IMPLEMENTED!!!
 
     custom_msg: {
         nof_msg_per_day: 0,
@@ -25,7 +24,6 @@ let input = {
         nof_msg_per_day: 24,
         on_time: 8,                         // [s]
         nof_satellites: 5, 
-        // TODO: nof_satellites NOT IMPLEMENTED!!! (lack of documentation)
     },
     wifi: {
         nof_msg_per_day: 24,
@@ -33,24 +31,53 @@ let input = {
     },
     ble: {
         nof_msg_per_day: 24,
-        nof_bssid: 4, 
-        operation: 'fast_scan',             // fast_scan|slow_scan 
+        nof_beaconid: 4, 
     },
     custom_ble: {
         usage_time_per_day: 0,
         operation: 'fast_adv',              // fast_adv|slow_adv|connected|fast_scan|slow_scan
+    },
 
-        // fast_scan_usage_time_per_day: 0,
-        // slow_scan_usage_time_per_day: 0,     
-        // fast_adv_usage_time_per_day:  0,
-        // slow_adv_usage_time_per_day:  0,
-        // connected_usage_time_per_day: 0,
-
+    // The following parameters will be implemented soon!!!
+    proximity: {
+        usage_time_per_day: 0,
+        alarms_per_day:     10,
+        warnings_per_day:   20,
     }
+
 };
 
-console.log(
-    'Estimated Battery Life Time:',
-    calculate_battery_life_time(input).toFixed(2),
-    'days'
-);
+let result = calculate_battery_life_time(input);
+// console.log( JSON.stringify(result, null, 2));
+
+let result_text = "Battery life time: " + result.battery_life_time + " days\n";
+result_text += "Energy distribution:\n";
+if (result.current_distribution.custom_msg > 0) { 
+    result_text += "  Custom msg: " + result.current_distribution.custom_msg + " %\n"; 
+}
+if (result.current_distribution.heartbeat > 0) { 
+    result_text += "  Heartbeat: " + result.current_distribution.heartbeat + " %\n"; 
+}
+if (result.current_distribution.gps > 0) { 
+    result_text += "  GPS: " + result.current_distribution.gps + " %\n"; 
+}
+if (result.current_distribution.agps > 0) { 
+    result_text += "  AGPS: " + result.current_distribution.agps + " %\n"; 
+}
+if (result.current_distribution.wifi > 0) { 
+    result_text += "  WiFi: " + result.current_distribution.wifi + " %\n"; 
+}
+if (result.current_distribution.ble > 0) { 
+    result_text += "  BLE: " + result.current_distribution.ble + " %\n"; 
+}
+if (result.current_distribution.custom_ble > 0) { 
+    result_text += "  Custom BLE: " + result.current_distribution.custom_ble + " %\n"; 
+}
+if (result.current_distribution.accelerometer > 0) { 
+    result_text += "  Accelerometer: " + result.current_distribution.accelerometer + " %\n"; 
+}
+if (result.current_distribution.quiesent_and_battery_leakage > 0) { 
+    result_text += "  Quiesent and Battery leakage: " + result.current_distribution.quiesent_and_battery_leakage + " %\n"; 
+}
+
+console.log(result_text);

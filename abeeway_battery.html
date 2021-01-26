@@ -25,6 +25,13 @@
             margin-bottom: 10px;
             box-sizing: border-box;
         }
+        textarea {
+            width: 392px;
+            height: 150px;
+            padding: 2px 3px 2px 3px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        } 
     </style>
 </head>
 <body>
@@ -62,7 +69,7 @@
             </div>
 
             <div class='flexitem'>
-                <label for="nof_msg_repetition">Num. of msg repetition:</label><br />
+                <label for="nof_msg_repetition">N. of times every msg sent:</label><br />
                 <select id="nof_msg_repetition" name="nof_msg_repetition">
                     <option value=1 selected>1</option>
                     <option value=2>2</option>
@@ -98,7 +105,7 @@
         <fieldset class='flexitem'>
             <legend>GPS location updates:</legend>
 
-            <label for="gps_nof_msg_per_day">Num. of msg/day:</label><br />
+            <label for="gps_nof_msg_per_day">Num. of update/day:</label><br />
             <input type="number" min="0" id="gps_nof_msg_per_day" name="gps_nof_msg_per_day" value="0"><br />
 
             <label for="gps_ttff">Time to first fix [s]:</label><br />
@@ -112,21 +119,27 @@
         <fieldset class='flexitem'>
             <legend>AGPS location updates:</legend>
 
-            <label for="agps_nof_msg_per_day">Num. of msg/day:</label><br />
+            <label for="agps_nof_msg_per_day">Num. of update/day:</label><br />
             <input type="number" min="0" id="agps_nof_msg_per_day" name="agps_nof_msg_per_day" value="0"><br />
 
             <label for="agps_on_time">AGPS on time [s]:</label><br />
             <input type="number" min="0" id="agps_on_time" name="agps_on_time" value="8"><br />
 
             <label for="agps_nof_satellites">Num. of satellites:</label><br />
-            <input type="number" min="0" id="agps_nof_satellites" name="agps_nof_satellites" value="5"><br />
+            <select id="agps_nof_satellites" name="agps_nof_satellites">
+                <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=4>4</option>
+                <option value=5 selected>5</option>
+            </select>
 
         </fieldset>
 
         <fieldset class='flexitem'>
             <legend>WiFi location updates:</legend>
 
-            <label for="wifi_nof_msg_per_day">Num. of msg/day:</label><br />
+            <label for="wifi_nof_msg_per_day">Num. of update/day:</label><br />
             <input type="number" min="0" id="wifi_nof_msg_per_day" name="wifi_nof_msg_per_day" value="0"><br />
 
             <label for="wifi_nof_bssid">Num. of BSSID/msg:</label><br />
@@ -136,27 +149,21 @@
                 <option value=3>3</option>
                 <option value=4 selected>4</option>
             </select>
-            <!-- <input type="number" id="wifi_nof_bssid" name="wifi_nof_bssid" value="4"><br /> -->
 
         </fieldset>
 
         <fieldset class='flexitem'>
             <legend>BLE location updates:</legend>
 
-            <label for="ble_nof_msg_per_day">Num. of msg/day:</label><br />
+            <label for="ble_nof_msg_per_day">Num. of update/day:</label><br />
             <input type="number" min="0" id="ble_nof_msg_per_day" name="ble_nof_msg_per_day" value="0"><br />
 
-            <label for="ble_nof_bssid">Num. of BSSID/msg:</label><br />
-            <select id="ble_nof_bssid" name="ble_nof_bssid">
+            <label for="ble_nof_beaconid">Num. of beacon ID/msg:</label><br />
+            <select id="ble_nof_beaconid" name="ble_nof_beaconid">
                 <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
                 <option value=4 selected>4</option>
-            </select><br />
-            <label for="ble_operation">BLE operation:</label><br />
-            <select id="ble_operation" name="ble_operation">
-                <option value="fast_scan">Fast BLE scan (8sec)</option>
-                <option value="slow_scan">Slow BLE scan (30sec)</option>
             </select><br />
 
         </fieldset>
@@ -177,13 +184,30 @@
 
         </fieldset>
 
+        <!-- Will be implemented soon!!! -->
+        <!--
+        <fieldset class='flexitem'>
+            <legend>Proximity detection:</legend>
+
+            <label for="proximity_usage_time_per_day">Usage per day [hour]:</label><br />
+            <input type="number" min="0" id="proximity_usage_time_per_day" name="proximity_usage_time_per_day" value="0"><br />
+
+            <label for="proximity_alarms_per_day">Num. of alarms per day :</label><br />
+            <input type="number" min="0" id="proximity_alarms_per_day" name="proximity_alarms_per_day" value="10"><br />
+
+            <label for="proximity_warnings_per_day">Num. of warnings per day :</label><br />
+            <input type="number" min="0" id="proximity_warnings_per_day" name="proximity_warnings_per_day" value="20"><br />
+
+        </fieldset>
+        -->
+
         <fieldset class='flexitem'>
 
             <legend>Calculation:</legend>
 
             <button onClick = "calculate()">Calculate</button><br />
 
-            <label for="result">Battery life time:</label><br />
+            <label for="result">Result:</label><br />
             <textarea id="result"></textarea>
 
         </fieldset>
@@ -207,7 +231,6 @@
             sf:                     document.getElementById('sf').value,                            // 7|8|9|10|11|12
             nof_msg_repetition:     document.getElementById('nof_msg_repetition').value,
             accelerometer_on:       document.getElementById('accelerometer_on').checked,
-            // TODO: transmission strategy NOT IMPLEMENTED!!!
 
             custom_msg: {
                 nof_msg_per_day:    document.getElementById('custom_msg_nof_msg_per_day').value,
@@ -225,7 +248,6 @@
                 nof_msg_per_day:    document.getElementById('agps_nof_msg_per_day').value,
                 on_time:            document.getElementById('agps_on_time').value,                  // [s]
                 nof_satellites:     document.getElementById('agps_nof_satellites').value,
-                // TODO: nof_satellites NOT IMPLEMENTED!!! How?
             },
             wifi: {
                 nof_msg_per_day:    document.getElementById('wifi_nof_msg_per_day').value,
@@ -233,30 +255,63 @@
             },
             ble: {
                 nof_msg_per_day:    document.getElementById('ble_nof_msg_per_day').value,
-                nof_bssid:          document.getElementById('ble_nof_bssid').value,                 
-                operation:          document.getElementById('ble_operation').value,                 // fast_scan|slow_scan 
+                nof_beaconid:       document.getElementById('ble_nof_beaconid').value,
             },
             custom_ble: {
                 usage_time_per_day: document.getElementById('custom_ble_usage_time_per_day').value, // fast_adv|slow_adv|connected|fast_scan|slow_scan
                 operation:          document.getElementById('custom_ble_operation').value,
-
-                // fast_scan_usage_time_per_day: 0,
-                // slow_scan_usage_time_per_day: 0,     
-                // fast_adv_usage_time_per_day:  0,
-                // slow_adv_usage_time_per_day:  0,
-                // connected_usage_time_per_day: 0,
-
+            },
+            
+            // The following parameters will be implemented soon!!! 
+            /*
+            proximity: {
+                usage_time_per_day: document.getElementById('proximity_usage_time_per_day').value,
+                alarms_per_day:     document.getElementById('proximity_alarms_per_day').value,
+                warnings_per_day:   document.getElementById('proximity_warnings_per_day').value,
             }
+            */
 
         };
 
-        const lifetime = calculate_battery_life_time(input);
-        let result = lifetime.toFixed(1) + " days";
-        if (lifetime >= 365) {
-            result += "\n" + (lifetime/365).toFixed(2) + " years";
+        let result = calculate_battery_life_time(input);
+        // document.getElementById('result').value = JSON.stringify(result, null, 2);
+
+        let result_text = "Battery life time: " + result.battery_life_time + " days\n";
+        result_text += "Energy distribution:\n";
+        if (result.current_distribution.custom_msg > 0) { 
+            result_text += "  Custom msg: " + result.current_distribution.custom_msg + " %\n"; 
         }
-        
-        document.getElementById('result').value = result;
+        if (result.current_distribution.heartbeat > 0) { 
+            result_text += "  Heartbeat: " + result.current_distribution.heartbeat + " %\n"; 
+        }
+        if (result.current_distribution.gps > 0) { 
+            result_text += "  GPS: " + result.current_distribution.gps + " %\n"; 
+        }
+        if (result.current_distribution.agps > 0) { 
+            result_text += "  AGPS: " + result.current_distribution.agps + " %\n"; 
+        }
+        if (result.current_distribution.wifi > 0) { 
+            result_text += "  WiFi: " + result.current_distribution.wifi + " %\n"; 
+        }
+        if (result.current_distribution.ble > 0) { 
+            result_text += "  BLE: " + result.current_distribution.ble + " %\n"; 
+        }
+        if (result.current_distribution.custom_ble > 0) { 
+            result_text += "  Custom BLE: " + result.current_distribution.custom_ble + " %\n"; 
+        }
+        if (result.current_distribution.accelerometer > 0) { 
+            result_text += "  Accelerometer: " + result.current_distribution.accelerometer + " %\n"; 
+        }
+        if (result.current_distribution.quiesent_and_battery_leakage > 0) { 
+            result_text += "  Quiesent and Battery leakage: " + result.current_distribution.quiesent_and_battery_leakage + " %\n"; 
+        }
+
+        document.getElementById('result').value = result_text;
+
+
+
+
+
 
     }
 

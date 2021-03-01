@@ -1,9 +1,11 @@
 
-<span style="background-color: #FFFF00">
-This Repo has been moved to Actility's GITHUB account.
-The new URL is the following:
-https://github.com/actility/abeeway_battery
-</span>
+---
+
+> This Repo has been moved to Actility's GITHUB account.
+> The new URL is the following:
+> https://github.com/actility/abeeway_battery
+
+---
 
 # Abeeway Battery Life Time Estimation Tool
 The 'abeeway_battery_standalone.html' file includes all html and javascript code of the tool. 
